@@ -1,0 +1,20 @@
+<?php
+
+namespace NoviusChecks;
+
+$className = 'TestConstanteCleserv'; // Le nom de la class
+class TestConstanteCleserv extends TestGenerique
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->testName             = 'Config Serveur PUBLINOVA_POSTANOVA_CLESERV';
+        $this->categorieName        = 'Def et Constantes';
+        $this->consequencesSiErreur = 'Le ROI avec Posta-Nova ne sera pas operationnel';
+    }
+
+    public function Test()
+    {
+        $this->status = !empty($_SERVER['PUBLINOVA_POSTANOVA_CLESERV']) ? 'ok' : 'warning';
+    }
+}

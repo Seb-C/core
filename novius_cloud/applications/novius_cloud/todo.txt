@@ -1,0 +1,48 @@
+
+\NC\Smtp::conf();
+
+new Statd();
+- front.start
+- nb req sql
+
+log :: truncate(file)::line
+
+
+
+
+
+
+- SQL
+- Mail ?
+- Cache ?
+
+remote_ip()
+statsd
+d() + logger?
+tests serveur
+date
+
+
+return array_merge(array(), \NC\Config::conf());
+
+
+
+
+class Statd
+{
+
+    __construct()
+{
+    $self = $this;
+    \Event::trigger('sql', function() use ( $self ) {
+        $self->log('sql);
+    });
+
+ }
+    __destruct()
+{
+   $this->send()
+
+ }
+
+}

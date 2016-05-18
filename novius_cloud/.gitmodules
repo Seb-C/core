@@ -1,0 +1,3 @@
+[submodule "applications/novius_loginhistory"]
+	path = applications/novius_loginhistory
+	url = https://github.com/novius/novius_loginhistory.git

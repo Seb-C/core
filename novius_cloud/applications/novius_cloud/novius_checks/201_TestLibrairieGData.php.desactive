@@ -1,0 +1,19 @@
+<?php
+namespace NoviusChecks;
+
+$className = 'TestLibrairieGData'; // Le nom de la class
+class TestLibrairieGData extends TestGenerique
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->testName             = 'Librairie GData';
+        $this->categorieName        = 'Librairies';
+        $this->consequencesSiErreur = 'Les modules "vidéo" (partie YouTube) et "stats" (partie Google Analytics) seront désactivés';
+    }
+
+    public function Test()
+    {
+        $this->status = function_exists('is_zendgdata_accessible') && is_zendgdata_accessible() ? 'ok' : 'warning';
+    }
+}

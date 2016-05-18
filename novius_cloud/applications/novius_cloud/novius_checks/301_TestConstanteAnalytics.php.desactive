@@ -1,0 +1,20 @@
+<?php
+
+namespace NoviusChecks;
+
+$className = 'TestConstanteAnalytics'; // Le nom de la class
+class TestConstanteAnalytics extends TestGenerique
+{
+    public function __construct()
+    {
+        parent::__construct();
+        $this->testName             = 'Config Serveur PUBLINOVA_ANALYTICS_L';
+        $this->categorieName        = 'Def et Constantes';
+        $this->consequencesSiErreur = 'Le compte PubliNova de visualisation par défaut de Google Analytics ne sera pas propose';
+    }
+
+    public function Test()
+    {
+        $this->status = !empty($_SERVER['PUBLINOVA_ANALYTICS_L']) ? 'ok' : 'warning';
+    }
+}

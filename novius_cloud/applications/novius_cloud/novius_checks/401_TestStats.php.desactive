@@ -1,0 +1,65 @@
+<?php
+namespace NoviusChecks;
+
+    $className = 'TestStats'; // Le nom de la class
+    class TestStats extends TestGenerique {
+        public function __construct() {
+            parent::__construct();
+            $this->testName             = 'Acces aux statistiques (lecture et ecriture)';
+            $this->categorieName        = 'Statistiques';
+            $this->consequencesSiErreur = 'Pour avoir des stats sur les mails, il faut un acces en ecriture.';
+        }
+
+        public function Test() {
+            if (!defined('SQLITE_HEBERGEMENT') || SQLITE_HEBERGEMENT == '') {
+                $this->status = 'warning';
+                $this->msg    = 'La constante SQLITE_HEBERGEMENT n\'est pas définie';
+                return;
+            }
+            if (!class_exists('DbSQLite')) {
+                $this->status = 'warning';
+                $this->msg    = 'Impossible de trouver la classe DbSQLite';
+                return;
+            }
+            if (!file_exists(SQLITE_HEBERGEMENT)) {
+                $this->status = 'warning';
+                $this->msg    = 'Le fichier ' . SQLITE_HEBERGEMENT . ' n\'existe pas';
+                return;
+            }
+
+            // Test en lecture
+            $sqLite = new DbSQLite();
+            if (!$sqLite->openBase(SQLITE_HEBERGEMENT)) {
+                $this->status = 'warning';
+                $this->msg    = 'Impossible d\'ouvrir la base ' . SQLITE_HEBERGEMENT;
+                return;
+            }
+
+            $r = $sqLite->sqlExec('PRAGMA user_version');
+            $d = $sqLite->fetchArray($r);
+            if (empty($d)) {
+                $this->status = 'warning';
+                $this->msg    = 'Impossible d\'acceder a la base en lecture';
+                return;
+            }
+
+            // Test en lecture
+            $rand = mt_rand();
+            $r    = $sqLite->sqlExec('INSERT INTO vars (vars_text, vars_int) VALUES (\'test\', '.(int) $rand.')');
+            if (empty($r)) {
+                $this->status = 'warning';
+                $this->msg    = 'Impossible d\'acceder a la base en ecriture';
+                return;
+            }
+            $r = $sqLite->sqlExec('SELECT count(*) FROM vars WHERE vars_text = \'test\' and vars_int = '.(int) $rand);
+            $d = $sqLite->fetchArray($r);
+            if (empty($d)) {
+                $this->status = 'warning';
+                $this->msg    = 'Impossible d\'acceder a la base en ecriture';
+                return;
+            }
+            $r = $sqLite->sqlExec('DELETE FROM vars WHERE vars_text = \'test\' and vars_int = '.(int) $rand);
+
+            $this->status = 'ok';
+        }
+    }
